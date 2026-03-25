@@ -16,7 +16,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie01_StudenciZWarszawy()
     {
-        throw Niezaimplementowano(nameof(Zadanie01_StudenciZWarszawy));
+        var studenci = DaneUczelni.Studenci.Where(s => Equals("Warszawy"))
+            .Select(s => $"{s.NumerIndeksu}, {s.Imie}, {s.Nazwisko}, {s.Miasto}");
+        
+        return studenci;
     }
 
     /// <summary>
@@ -30,7 +33,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie02_AdresyEmailStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie02_AdresyEmailStudentow));
+        var email = DaneUczelni.Studenci
+            .Select(s => $"{s.Email}");
+        
+        return email;
     }
 
     /// <summary>
@@ -45,7 +51,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie03_StudenciPosortowani()
     {
-        throw Niezaimplementowano(nameof(Zadanie03_StudenciPosortowani));
+        var studenci = DaneUczelni.Studenci
+            .OrderBy(s => s.Nazwisko).OrderBy(s=> s.Imie)
+            .Select(s => $"{s.NumerIndeksu}, {s.Imie}, {s.Nazwisko}");
+        
+        return studenci;
     }
 
     /// <summary>
@@ -60,7 +70,13 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie04_PierwszyPrzedmiotAnalityczny()
     {
-        throw Niezaimplementowano(nameof(Zadanie04_PierwszyPrzedmiotAnalityczny));
+        var przedmiot = DaneUczelni.Przedmioty.Where(p => p.Nazwa.Equals("Analitics"))
+            .Select(p => $"{p.Nazwa}, {p.DataStartu}").TakeLast(1);
+
+        if (przedmiot == null)
+            return ["Przedmioty nie znaleziony"];
+        
+        return przedmiot;
     }
 
     /// <summary>
@@ -77,7 +93,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie05_CzyIstniejeNieaktywneZapisanie()
     {
-        throw Niezaimplementowano(nameof(Zadanie05_CzyIstniejeNieaktywneZapisanie));
+        var zapis = DaneUczelni.Zapisy.Where(z => z.CzyAktywny.Equals(false)).Count();
+
+        if (zapis == 0)
+            return ["Nie"];
+        return ["Tak"];
     }
 
     /// <summary>
@@ -92,7 +112,9 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
-        throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
+        var prowadzacy = DaneUczelni.Prowadzacy.Any(p => p.Katedra == null);
+        
+        return prowadzacy ? ["Tak"] : ["Nie"];
     }
 
     /// <summary>
@@ -106,7 +128,9 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie07_LiczbaAktywnychZapisow()
     {
-        throw Niezaimplementowano(nameof(Zadanie07_LiczbaAktywnychZapisow));
+        var zapisy = DaneUczelni.Zapisy.Where(z => z.CzyAktywny.Equals(true)).Count().ToString();
+
+        return [zapisy];
     }
 
     /// <summary>
@@ -120,7 +144,9 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie08_UnikalneMiastaStudentow));
+        var maisto = DaneUczelni.Studenci.OrderBy(s => s.Miasto).Select(s => s.Miasto).Distinct();
+        
+        return maisto;
     }
 
     /// <summary>
@@ -135,7 +161,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie09_TrzyNajnowszeZapisy()
     {
-        throw Niezaimplementowano(nameof(Zadanie09_TrzyNajnowszeZapisy));
+        var zapisy = DaneUczelni.Zapisy.OrderBy(z => z.DataZapisu)
+            .Select(z => $"{z.DataZapisu}, {z.StudentId}, {z.PrzedmiotId}").Take(3);
+        
+        return zapisy;
     }
 
     /// <summary>
@@ -151,7 +180,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie10_DrugaStronaPrzedmiotow()
     {
-        throw Niezaimplementowano(nameof(Zadanie10_DrugaStronaPrzedmiotow));
+        var przedmiot = DaneUczelni.Przedmioty.OrderBy(p => p.Nazwa)
+            .Select(z => $"{z.Nazwa}, {z.Kategoria}").Skip(2).Take(2);
+        
+        return przedmiot;
     }
 
     /// <summary>
